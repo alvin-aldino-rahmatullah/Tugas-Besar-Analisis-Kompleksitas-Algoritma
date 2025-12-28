@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Analisis Bilangan Prima</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <style>
+    body {
+      font-family: "Segoe UI", Arial, sans-serif;
+      background: linear-gradient(135deg, #1e3c72, #2a5298);
+      min-height: 100vh;
+      margin: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: #333;
+    }
+
+    .badge {
+  display: inline-block;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-weight: bold;
+  color: white;
+  font-size: 14px;
+}
+
+.prima {
+  background-color: #28a745;
+}
+
+.bukan {
+  background-color: #dc3545;
+}
+
+
+    .card {
+      background: #ffffff;
+      width: 100%;
+      max-width: 420px;
+      padding: 25px;
+      border-radius: 12px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 10px;
+      color: #1e3c72;
+    }
+
+    p.subtitle {
+      text-align: center;
+      font-size: 14px;
+      color: #666;
+      margin-bottom: 20px;
+    }
+
+    label {
+      font-weight: 600;
+      display: block;
+      margin-top: 15px;
+      margin-bottom: 5px;
+    }
+
+    input, select {
+      width: 100%;
+      padding: 10px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      font-size: 14px;
+    }
+
+    button {
+      width: 100%;
+      margin-top: 20px;
+      padding: 12px;
+      border: none;
+      border-radius: 8px;
+      background: #1e3c72;
+      color: white;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background 0.2s ease;
+    }
+
+    button:hover {
+      background: #16305a;
+    }
+
+    .output {
+      margin-top: 20px;
+      padding: 15px;
+      border-radius: 8px;
+      background: #f4f6f8;
+      font-size: 14px;
+    }
+
+    .label {
+      font-weight: bold;
+      color: #1e3c72;
+    }
+
+    footer {
+      text-align: center;
+      font-size: 12px;
+      color: #999;
+      margin-top: 15px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="card">
+    <h2>Bilangan Prima</h2>
+    <p class="subtitle">
+      Analisis Kompleksitas Algoritma<br>
+      Iteratif vs Rekursif
+    </p>
+
+    <label for="n">Masukkan Bilangan (n)</label>
+    <input type="number" id="n" placeholder="Contoh: 97">
+
+    <label for="mode">Pilih Metode</label>
+    <select id="mode">
+      <option value="iterative">Iteratif</option>
+      <option value="recursive">Rekursif</option>
+    </select>
+
+    <button onclick="proses()">Proses</button>
+
+    <div class="output" id="output">
+      <span class="label">Output:</span><br>
+      Menunggu input...
+    </div>
+
+    <footer>
+      Tugas Besar Analisis Kompleksitas Algoritma
+    </footer>
+  </div>
+
+  <script>
+    function proses() {
+      const n = document.getElementById("n").value;
+      const mode = document.getElementById("mode").value;
+      const output = document.getElementById("output");
+
+      if (n === "") {
+        output.innerHTML = "<b>Output:</b><br>Masukkan nilai n terlebih dahulu.";
+        return;
+      }
+
+      output.innerHTML = "<b>Output:</b><br>Memproses...";
+
+      fetch("http://127.0.0.1:5000/check", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ n: n, mode: mode })
+      })
+      .then(res => res.json())
+      .then(data => {
+  let statusHTML = "";
+
+  if (data.hasil === "PRIMA") {
+    statusHTML = "<span class='badge prima'>PRIMA</span>";
+  } else {
+    statusHTML = "<span class='badge bukan'>BUKAN PRIMA</span>";
+  }
+
+  output.innerHTML =
+    "<span class='label'>Status Bilangan:</span> " + statusHTML +
+    "<br><span class='label'>Waktu Eksekusi:</span> " + data.waktu + " ms";
+});
+
+    }
+  </script>
+
+</body>
+</html>
