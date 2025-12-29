@@ -22,9 +22,8 @@ bool primaIteratif(int n) {
 }
 
 int main(int argc, char* argv[]) {
-    int n = stoi(argv[1]);        // input bilangan
-    string mode = argv[2];       // iterative / recursive
-
+    int n = stoi(argv[1]);        
+    string mode = argv[2];      
     bool hasil;
 
     auto mulai = chrono::high_resolution_clock::now();
@@ -35,8 +34,8 @@ int main(int argc, char* argv[]) {
         hasil = primaRekursif(n, 2);
     }
 
-    auto selesai = chrono::high_resolution_clock::now(); // mengukur waktu selesai
-    double waktu = chrono::duration<double, milli>(selesai - mulai).count(); // waktu dalam milidetik
+    auto selesai = chrono::high_resolution_clock::now(); 
+    double waktu = chrono::duration<double, milli>(selesai - mulai).count(); 
 
     if (hasil)
         cout << "PRIMA ";
